@@ -1,0 +1,70 @@
+---
+title: "FA1 - Probability & Distribution"
+author: "Perez Jr., Carlo"
+date: "2026-08-29"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Item 1: Skewness Analysis
+
+```{r item1}
+results <- read.csv("results.csv")
+
+exact_skew <- function(x) {
+  x <- na.omit(x)
+  n <- length(x)
+  if (n < 3) return(NA)
+  mean_x <- mean(x)
+  sd_x <- sd(x)
+  sum(((x - mean_x) / sd_x)^3) * (n / ((n - 1) * (n - 2)))
+}
+
+pearson_skew <- function(x) {
+  x <- na.omit(x)
+  3 * (mean(x) - median(x)) / sd(x)
+}
+
+subjects <- c("arch1", "prog1", "arch2", "prog2")
+
+exact_vals <- sapply(results[subjects], exact_skew)
+pearson_vals <- sapply(results[subjects], pearson_skew)
+
+data.frame(Exact = exact_vals, Pearson = pearson_vals)
+```
+
+### Discussion on Item 1 Data
+The subjects arch1, prog1, and prog2 yield negative skewness values, indicating left-skewed distributions where the majority of students performed well, but a few exceptionally low scores pull the mean down. Conversely, arch2 yields a positive skewness, indicating a right-skewed distribution.
+
+Pearson's formula provides a reasonable approximation as it correctly captures the direction of the skewness across all subjects. However, for precise numerical reporting, the exact formula is necessary, as the magnitude can differ notably.
+
+---
+
+## Item 2: Stem-and-Leaf Displays and Box-Plots
+
+```{r item2}
+class_data <- read.csv("results.csv")
+males <- na.omit(class_data$prog1[class_data$gender == "m"])
+females <- na.omit(class_data$prog1[class_data$gender == "f"])
+
+cat("Male Stem-and-Leaf:\n")
+stem(males)
+
+cat("\nFemale Stem-and-Leaf:\n")
+stem(females)
+
+boxplot(prog1 ~ gender, data = class_data,
+        main = "Computing Scores by Gender",
+        xlab = "Gender", 
+        ylab = "Score",
+        col = c("lightblue", "lightpink"))
+```
+
+### Advantages of Stem-and-Leaf Displays vs Histograms
+A stem-and-leaf display retains the actual numerical data points, allowing the reader to see exact scores while still visualizing the overall shape and spread of the distribution. In contrast, a traditional histogram aggregates data into arbitrary bins, which results in the loss of individual numerical details.
+
+### Box-Plot Findings
+Based on the box-plots, we can compare the central tendency and spread of scores between males and females. The median score (represented by the dark line inside the boxes) and the interquartile range (the height of the boxes representing the middle 50% of scores) indicate the comparative performance. Any isolated points outside the "whiskers" highlight specific score outliers in the dataset.
