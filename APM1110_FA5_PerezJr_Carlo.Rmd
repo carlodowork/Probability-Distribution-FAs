@@ -1,0 +1,105 @@
+---
+title: "APM1110_FA5_PerezJr_Carlo"
+author: "Carlo Perez Jr"
+date: "2026-09-15"
+output: pdf_document
+---
+
+### 1. Discrete Random Variables
+
+$$P(X=x)=\begin{cases}k(2x+1),&x=1,2,3,4\\ 0,&otherwise\end{cases}$$
+
+#### (a) Find the value of the constant $k$.
+$$\sum_{x=1}^{4} P(X=x) = 1$$
+
+$$\begin{aligned}
+P(X=1) &= k(2(1)+1) = 3k \\
+P(X=2) &= k(2(2)+1) = 5k \\
+P(X=3) &= k(2(3)+1) = 7k \\
+P(X=4) &= k(2(4)+1) = 9k
+\end{aligned}$$
+
+$$3k + 5k + 7k + 9k = 24k$$
+$$24k = 1 \implies k = \frac{1}{24} \approx \mathbf{0.0417}$$
+
+#### (b) Compute the expected value $E[X]$ and the variance $Var(X)$
+$$E[X] = \sum x \cdot P(X=x) = (1)(3k) + (2)(5k) + (3)(7k) + (4)(9k)$$
+$$E[X] = 3k + 10k + 21k + 36k = 70k$$
+$$E[X] = 70 \left(\frac{1}{24}\right) = \frac{70}{24} = \frac{35}{12} \approx \mathbf{2.9167}$$
+
+$$E[X^2] = \sum x^2 \cdot P(X=x) = (1^2)(3k) + (2^2)(5k) + (3^2)(7k) + (4^2)(9k)$$
+$$E[X^2] = 3(3k) + 4(5k) + 9(7k) + 16(9k) = 3k + 20k + 63k + 144k = 230k$$
+$$E[X^2] = 230 \left(\frac{1}{24}\right) = \frac{230}{24} = \frac{115}{12} \approx 9.5833$$
+
+$$Var(X) = E[X^2] - (E[X])^2$$
+$$Var(X) = \frac{115}{12} - \left(\frac{35}{12}\right)^2 = \frac{115}{12} - \frac{1225}{144} = \frac{1380 - 1225}{144} = \frac{155}{144} \approx \mathbf{1.0764}$$
+
+#### (c) Calculate $P(X \ge 3)$.
+$$P(X \ge 3) = P(X=3) + P(X=4) = 7k + 9k = 16k$$
+$$P(X \ge 3) = 16 \left(\frac{1}{24}\right) = \frac{16}{24} = \frac{2}{3} \approx \mathbf{0.6667}$$
+
+---
+
+### 2. Binomial Distribution
+
+Parameters: $n = 20$, $p = 0.08$, $q = 1 - 0.08 = 0.92$
+
+#### (a) What is the probability that exactly 2 requests are malicious?
+$$P(X = x) = \binom{n}{x} p^x q^{n-x}$$
+$$P(X = 2) = \binom{20}{2} (0.08)^2 (0.92)^{18}$$
+$$P(X = 2) = 190 \times (0.0064) \times (0.2212) \approx \mathbf{0.2689}$$
+
+#### (b) What is the probability that at least 3 requests are malicious?
+$$P(X \ge 3) = 1 - [P(X=0) + P(X=1) + P(X=2)]$$
+$$P(X=0) = \binom{20}{0} (0.08)^0 (0.92)^{20} \approx 0.1887$$
+$$P(X=1) = \binom{20}{1} (0.08)^1 (0.92)^{19} \approx 0.3284$$
+$$P(X=2) \approx 0.2689$$
+$$P(X \ge 3) = 1 - (0.1887 + 0.3284 + 0.2689) = 1 - 0.7860 = \mathbf{0.2140}$$
+
+#### (c) Determine the mean and standard deviation of the number of malicious requests.
+$$\mu = n \cdot p = 20 \times 0.08 = \mathbf{1.6000}$$
+$$\sigma = \sqrt{n \cdot p \cdot q} = \sqrt{20 \times 0.08 \times 0.92} = \sqrt{1.4720} \approx \mathbf{1.2133}$$
+
+---
+
+### 3. Poisson Distribution
+
+$\lambda = 4.5$
+
+#### (a) Find the probability of receiving exactly 6 hits in a given minute.
+$$P(X = x) = \frac{e^{-\lambda} \lambda^x}{x!}$$
+$$P(X = 6) = \frac{e^{-4.5} (4.5)^6}{6!} = \frac{0.0111 \times 8305.8438}{720} \approx \mathbf{0.1282}$$
+
+#### (b) Find the probability of receiving at most 2 hits in a given minute.
+$$P(X \le 2) = P(X=0) + P(X=1) + P(X=2)$$
+$$P(X=0) = \frac{e^{-4.5} (4.5)^0}{0!} \approx 0.0111$$
+$$P(X=1) = \frac{e^{-4.5} (4.5)^1}{1!} \approx 0.0500$$
+$$P(X=2) = \frac{e^{-4.5} (4.5)^2}{2!} \approx 0.1125$$
+$$P(X \le 2) = 0.0111 + 0.0500 + 0.1125 = \mathbf{0.1736}$$
+
+#### (c) Calculate the probability of receiving more than 10 hits in a 2-minute interval.
+$\lambda' = 4.5 \times 2 = 9.0$
+$$P(Y > 10) = 1 - P(Y \le 10) = 1 - \sum_{y=0}^{10} \frac{e^{-9} 9^y}{y!}$$
+$$\sum_{y=0}^{10} P(Y = y) \approx 0.7060$$
+$$P(Y > 10) = 1 - 0.7060 = \mathbf{0.2940}$$
+
+---
+
+### 4. Continuous Probability & Normal Distribution
+
+$\mu = 120$, $\sigma = 15$
+
+#### (a) What proportion of queries take longer than 135 milliseconds to process?
+$$Z = \frac{135 - 120}{15} = \frac{15}{15} = 1.0$$
+$$P(X > 135) = P(Z > 1.0) = 1 - P(Z \le 1.0) = 1 - 0.8413 = \mathbf{0.1587}$$
+
+#### (b) Find the probability that a randomly chosen query takes between 100 and 130 milliseconds.
+$$Z_1 = \frac{100 - 120}{15} = \frac{-20}{15} \approx -1.3333$$
+$$Z_2 = \frac{130 - 120}{15} = \frac{10}{15} \approx 0.6667$$
+$$P(-1.3333 < Z < 0.6667) = P(Z < 0.6667) - P(Z < -1.3333)$$
+$$P(-1.3333 < Z < 0.6667) = 0.7475 - 0.0912 = \mathbf{0.6563}$$
+
+#### (c) Find the $95^{\text{th}}$ percentile of query processing times.
+$z_{0.95} = 1.6449$
+$$x = \mu + z \cdot \sigma$$
+$$x_{95} = 120 + (1.6449 \times 15) = 120 + 24.6735 = \mathbf{144.6735} \text{ ms}$$
